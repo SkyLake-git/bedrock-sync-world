@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/SkyLake-git/bedrock-sync-world#readme",
   "dependencies": {
+    "data-registries": "github:SkyLake-git/data-registries",
     "events": "^3.3.0",
     "prismarine-block": "^1.16.3",
     "prismarine-chunk": "^1.33.0",
