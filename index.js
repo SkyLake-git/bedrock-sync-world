@@ -25,6 +25,11 @@ var EmptyChunkGenerator = /** @class */ (function () {
 	EmptyChunkGenerator.prototype.generate = function (x, z, chunkType) {
 		return new chunkType({ x: x, z: z });
 	};
+	EmptyChunkGenerator.prototype.make = function (x, y, z, chunk, blockType) {
+		var block = new blockType(data_registries_1.latestRegistries.minecraft.blocksByName.air.id, data_registries_1.latestRegistries.minecraft.biomesByName.plains.id, 0);
+		block.position.set(x, y, z).floor();
+		return block;
+	};
 	return EmptyChunkGenerator;
 }());
 exports.EmptyChunkGenerator = EmptyChunkGenerator;
@@ -60,18 +65,22 @@ var World = /** @class */ (function (_super) {
 		return { x: this.toChunkCoord(v.x), z: this.toChunkCoord(v.z) };
 	};
 	World.prototype.getChunkHash = function (x, z) {
-		return morton_1(x, z);
+		return (0, morton_1["default"])(x, z);
 	};
 	World.prototype.getChunkFrom = function (x, z) {
 		return this.getChunk(this.toChunkCoord(x), this.toChunkCoord(z));
 	};
 	World.prototype.getChunk = function (x, z) {
+		var _this = this;
 		var hash = this.getChunkHash(x, z);
 		var chunk = this.chunks[hash];
 		if (chunk == null) {
-			var newChunk = this._defaultChunkGenerator.generate(x, z, data_registries_1.latestRegistries.chunk);
-			this._setChunk(x, z, newChunk);
-			return newChunk;
+			var newChunk_1 = this._defaultChunkGenerator.generate(x, z, data_registries_1.latestRegistries.chunk);
+			newChunk_1.initialize(function (x, y, z) {
+				return _this._defaultChunkGenerator.make(x, y, z, newChunk_1, data_registries_1.latestRegistries.block);
+			});
+			this._setChunk(x, z, newChunk_1);
+			return newChunk_1;
 		}
 		return chunk;
 	};

@@ -1,6 +1,9 @@
 import { Vec3 } from "vec3"
 import { Block } from 'prismarine-block'
 import { BedrockChunk, CommonChunk, ExtendedBlock } from 'prismarine-chunk'
+import chunk from 'prismarine-chunk'
+import morton_2d from 'morton'
+import { latestRegistries } from 'data-registries'
 import { EventEmitter } from 'events'
 import { Entity, EntityType } from "prismarine-entity"
 
@@ -16,10 +19,14 @@ export interface WorldBlockDataProvider {
 
 export interface IChunkGenerator {
 	generate(x: ChunkCoord, z: ChunkCoord, chunkType: typeof BedrockChunk): BedrockChunk
+
+	make(x: number, y: number, z: number, chunk: BedrockChunk, blockType: typeof Block): Block
 }
 
 export class EmptyChunkGenerator implements IChunkGenerator {
 	generate(x: number, z: number, chunkType: typeof BedrockChunk): BedrockChunk
+
+	make(x: number, y: number, z: number, chunk: BedrockChunk, blockType: typeof Block): Block
 }
 
 export class World extends EventEmitter implements WorldBlockDataProvider {
@@ -40,7 +47,7 @@ export class World extends EventEmitter implements WorldBlockDataProvider {
 
 	toChunkCoord(v: number): ChunkCoord
 
-	toChunkPosition(v: { x: number, y: number }): ChunkPosition
+	toChunkPosition(v: { x: number, z: number }): ChunkPosition
 
 	getChunkHash(x: ChunkCoord, z: ChunkCoord): number
 
