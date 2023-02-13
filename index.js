@@ -16,6 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 exports.__esModule = true;
 exports.World = exports.EmptyChunkGenerator = void 0;
+var vec3_1 = require("vec3");
 var morton_1 = require("morton");
 var data_registries_1 = require("data-registries");
 var events_1 = require("events");
@@ -27,7 +28,7 @@ var EmptyChunkGenerator = /** @class */ (function () {
 	};
 	EmptyChunkGenerator.prototype.make = function (x, y, z, chunk, blockType) {
 		var block = new blockType(data_registries_1.latestRegistries.minecraft.blocksByName.air.id, data_registries_1.latestRegistries.minecraft.biomesByName.plains.id, 0);
-		block.position.set(x, y, z).floor();
+		block.position = new vec3_1.Vec3(x, y, z).floor();
 		return block;
 	};
 	return EmptyChunkGenerator;
