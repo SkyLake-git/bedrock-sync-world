@@ -28,7 +28,7 @@ var EmptyChunkGenerator = /** @class */ (function () {
 	};
 	EmptyChunkGenerator.prototype.make = function (x, y, z, chunk, blockType) {
 		var block = new blockType(data_registries_1.latestRegistries.minecraft.blocksByName.air.id, data_registries_1.latestRegistries.minecraft.biomesByName.plains.id, 0);
-		block.position = new vec3_1.Vec3(x, y, z).floor();
+		block.position = new vec3_1.Vec3(x, y, z).floored();
 		return block;
 	};
 	return EmptyChunkGenerator;
@@ -93,12 +93,12 @@ var World = /** @class */ (function (_super) {
 		this.chunks[hash] = chunk;
 	};
 	World.prototype.getBlock = function (position, full) {
-		var floorPos = position.floor();
+		var floorPos = position.floored();
 		var chunk = this.getChunkFrom(floorPos.x, floorPos.y);
 		return chunk.getBlock(floorPos, full);
 	};
 	World.prototype.setBlock = function (position, block) {
-		var floorPos = position.floor();
+		var floorPos = position.floored();
 		block.position = floorPos.clone();
 		var chunk = this.getChunkFrom(floorPos.x, floorPos.y);
 		var oldBlock = chunk.getBlock(floorPos);
