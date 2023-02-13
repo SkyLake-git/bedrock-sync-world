@@ -65,7 +65,7 @@ var World = /** @class */ (function (_super) {
 		return { x: this.toChunkCoord(v.x), z: this.toChunkCoord(v.z) };
 	};
 	World.prototype.getChunkHash = function (x, z) {
-		return (0, morton_1["default"])(x, z);
+		return morton_1(x, z);
 	};
 	World.prototype.getChunkFrom = function (x, z) {
 		return this.getChunk(this.toChunkCoord(x), this.toChunkCoord(z));
